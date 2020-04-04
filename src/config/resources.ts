@@ -6,7 +6,6 @@ export class Resources
         Object.keys(Resources.imageFilesPath).forEach(key => {
             let path = Resources.imageFilesPath[key];
             PIXI.loader.add(key, path);
-
         });
   
 
@@ -24,7 +23,8 @@ export class Resources
 
     static imageFilesPath =
     {
-        title : './src/assets/image/title.png', 
+		reelCov : './src/assets/image/reel/reelCover.png', 
+		spinButton : './src/assets/image/spinButton/spinButton.png'
     };
     static audioFilesPath =
     {
@@ -32,7 +32,10 @@ export class Resources
     };
 }
 
-export let imagesRes = {  title : 'title' }; 
+export let imagesRes = {  
+	reelCov : 'reelCov',
+	spinButton :  'spinButton'	
+}; 
 export let audiosRes = { }; 
 export let spriteSheetRes = { }; 
 export let loadedFiles: PIXI.loaders.Resource | PIXI.loaders.ResourceDictionary;
