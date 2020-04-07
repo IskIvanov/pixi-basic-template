@@ -12,10 +12,10 @@ export class App extends PIXI.Application {
         super( {
             view : canvas,
             antialias: false,
-            backgroundColor: Settings.BgColor,
+            // backgroundColor: Settings.BgColor,
             roundPixels: Settings.RoundPixels,
             width: ScreenSize.width,
-            height: ScreenSize.height
+			height: ScreenSize.height
         });
 
         document.body.appendChild(this.view);

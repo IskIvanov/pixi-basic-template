@@ -5,23 +5,25 @@ import { Resources } from "../config/resources";
 import { App } from "../app";
 import { Scene } from "../scene";
 
-
-
 export class LoadScene extends Scene {
  
+// Try changing stage from here ?
 
     private loadingText : PIXI.Text;
     constructor(layer : SceneLayer) {
         super(layer);
         this.create();
-    }
+	}
+	
+	// When rendering anything on the scene we use create method ?
+	// how  to  transform an asset to a texture ?
+
     protected create(): void {
 
         const loadingStyle = new PIXI.TextStyle({
             fill: "#24f818",
             fontSize: 50
         });
-
         this.loadingText = new PIXI.Text('Please Wait.', loadingStyle);
         this.loadingText.anchor.set(0.5);
         this.sceneContainer.addChild(this.loadingText);
