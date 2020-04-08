@@ -79,5 +79,9 @@ export class SceneController {
         this.loadedScenes.forEach(scene => {
             scene.update(delta);
         });
-    }
+	}
+	
+	// private addControlListeners(): void {
+	// 	this.controls.forEach()
+	// }
 }

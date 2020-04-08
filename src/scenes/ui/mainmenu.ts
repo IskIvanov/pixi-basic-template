@@ -2,6 +2,7 @@ import { SceneLayer } from "../../controllers/SceneController";
 import { loadedFiles, imagesRes } from "../../config/resources";
 import { Scene } from "../../scene";
 import { ScreenSize } from "../../config/settings";
+import Dust from "pixi-dust"
 // import * as GSAP from "gsap";
 
 export class MainMenuScene extends Scene {
@@ -25,6 +26,7 @@ export class MainMenuScene extends Scene {
 		this.reel_Cover();
 		this.symbols();
 		this.spin();
+		this.particles();
 	}
 
 	//Build a reel
@@ -39,6 +41,22 @@ export class MainMenuScene extends Scene {
 		reel.blur.blurX = 0;
 		reel.blur.blurY = 0;
 		
+	}
+
+	public particles(): void {
+		let dust = new Dust(PIXI);
+		let starPng = PIXI.Sprite.fromImage('/src/assets/image/stars.png');
+		
+		let starContainer = new PIXI.ParticleContainer()
+
+		let stars = dust.create(
+			128,
+			128,
+			()=>starPng,
+			starContainer,
+			50,
+		);
+		this.sceneContainer.addChild(stars);
 	}
 
 	// Add reel Cover 
@@ -95,13 +113,8 @@ export class MainMenuScene extends Scene {
 		this.sceneContainer.addChild(this.symbolTwo);
 		this.sceneContainer.addChild(this.symbolThree);
 	}
-
-	public reelCover(): void {
-	}
 	
     public update(delta: number): void {
-		console.log("update");
-
 	   if(this.symbolTwo.position.y <= 500 && this.symbolTwo.position.y >= 100){
 			this.symbolTwo.position.y-=1;
 		}
