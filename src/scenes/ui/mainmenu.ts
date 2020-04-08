@@ -2,8 +2,9 @@ import { SceneLayer } from "../../controllers/SceneController";
 import { loadedFiles, imagesRes } from "../../config/resources";
 import { Scene } from "../../scene";
 import { ScreenSize } from "../../config/settings";
-import Dust from "pixi-dust"
-// import * as GSAP from "gsap";
+import Dust from "pixi-dust";
+import easingFormulas from "pixi-charm";
+
 
 export class MainMenuScene extends Scene {
 
@@ -13,7 +14,6 @@ export class MainMenuScene extends Scene {
 	private symbolThree: PIXI.Sprite;
 	private spinButton: PIXI.Sprite;
 	public justSomeText: PIXI.Text;
-	public tweening: []
 
 
     constructor(layer: SceneLayer) {
@@ -26,7 +26,8 @@ export class MainMenuScene extends Scene {
 		this.reel_Cover();
 		this.symbols();
 		this.spin();
-		this.particles();
+		// this.particles();
+		// this.mask();
 	}
 
 	//Build a reel
@@ -47,13 +48,13 @@ export class MainMenuScene extends Scene {
 		let dust = new Dust(PIXI);
 		let starPng = PIXI.Sprite.fromImage('/src/assets/image/stars.png');
 		
-		let starContainer = new PIXI.ParticleContainer()
+		// let starContainer = new PIXI.ParticleContainer()
 
 		let stars = dust.create(
 			128,
 			128,
 			()=>starPng,
-			starContainer,
+			// starContainer,
 			50,
 		);
 		this.sceneContainer.addChild(stars);
@@ -61,7 +62,7 @@ export class MainMenuScene extends Scene {
 
 	// Add reel Cover 
 	public reel_Cover() :void {
-		this.reelCov = PIXI.Sprite.fromImage('/src/assets/image/reel/reelCover.png');
+		this.reelCov = PIXI.Sprite.fromImage('/src/assets/image/reelCover.png');
         this.reelCov.anchor.set(0.5);
         this.reelCov.x = ScreenSize.width / 2;
 		this.reelCov.y = ScreenSize.height / 2;
@@ -72,7 +73,7 @@ export class MainMenuScene extends Scene {
 
 	//Add Spin button
 	public spin() :any {
-		let symbolTexture = PIXI.Texture.fromImage('/src/assets/image/reel/spinButton.png');
+		let symbolTexture = PIXI.Texture.fromImage('/src/assets/image/spinButton.png');
 		this.spinButton = new PIXI.Sprite(symbolTexture);
 		this.spinButton.position.x = 820;
 		this.spinButton.position.y = 470;
@@ -82,32 +83,39 @@ export class MainMenuScene extends Scene {
 		this.spinButton.buttonMode = true;
 
 		this.spinButton.on('click',(): void => {
-			this.spinButton.scale.x *= 1.25;
-			this.spinButton.scale.y *= 1.25;
+			// this.spinButton.rotation += 1;
 			// Tweening with GSAP
-			// new GSAP.Animation(10, this.spinButton);
 		})	
+	}
+
+	public tweening(symbol: PIXI.Sprite): PIXI.Sprite {
+		let c = new easingFormulas(PIXI);
+		
+		let slider = c.slide(this.symbolOne,128,128,128,"smoothstep",true);
+		
+		return slider
 	}
 	
 	public symbols(): any {
-		this.symbolOne = PIXI.Sprite.fromImage('/src/assets/image/reel/reelSimbol1.png');
+		this.symbolOne = PIXI.Sprite.fromImage('/src/assets/image/reelSimbol1.png');
 		this.symbolOne.position.x = 548;
 		this.symbolOne.position.y = 90;
 		this.symbolOne.scale.x = 0.5;
 		this.symbolOne.scale.y = 0.5;
 		
-		this.symbolTwo = PIXI.Sprite.fromImage('/src/assets/image/reel/reelSimbol2.png');
+		this.symbolTwo = PIXI.Sprite.fromImage('/src/assets/image/reelSimbol2.png');
 		this.symbolTwo.position.x = 548;
 		this.symbolTwo.position.y = 460;
 		this.symbolTwo.scale.x = 0.5;
 		this.symbolTwo.scale.y = 0.5;
 		
-		let symbolTexture = PIXI.Texture.fromImage('/src/assets/image/reel/reelSimbol3.png')
-		this.symbolThree = new PIXI.Sprite(symbolTexture);
+		this.symbolThree = PIXI.Sprite.fromImage('/src/assets/image/reelSimbol3.png');
 		this.symbolThree.position.x = 548;
 		this.symbolThree.position.y = 270;
 		this.symbolThree.scale.x = 0.5;
 		this.symbolThree.scale.y = 0.5;
+
+		this.tweening(this.symbolOne)
 
 		this.sceneContainer.addChild(this.symbolOne);
 		this.sceneContainer.addChild(this.symbolTwo);
@@ -115,14 +123,17 @@ export class MainMenuScene extends Scene {
 	}
 	
     public update(delta: number): void {
-	   if(this.symbolTwo.position.y <= 500 && this.symbolTwo.position.y >= 100){
-			this.symbolTwo.position.y-=1;
-		}
 
-		if(this.symbolTwo.position.y <= 100){
-			this.symbolTwo.position.y+=500;
-		}
-		
+		// let symbols = [this.symbolOne, this.symbolTwo, this.symbolTwo];
+		// console.log(symbols);
+		// symbols.forEach(symbol => {
+		// 	if(symbol.position.y<= 500 && symbol.position.y >= 100){
+		// 		symbol.position.y -= 1;
+		// 	}
+		// 	if(symbol.position.y <= 100){
+		// 		this.symbolTwo.position.y+=500;
+		// 	}
+		// })	
     }
 	
 	//Mask to cover top and  bottom of reels
